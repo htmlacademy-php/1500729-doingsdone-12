@@ -2,6 +2,20 @@
 require_once ('data.php');
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
+function count_of_tasks ($name_of_category, $tasks_of_category) {
+    $count_of_task === 0;
+    foreach ($tasks_of_category as $task_of_category) {
+        if ($task_of_category['category'] == $name_of_category) {
+            $count_of_task ++;
+        }
+    }
+    if ($count_of_task > 0) {
+        return $count_of_task;
+    }
+    else {
+        return 0;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -46,7 +60,7 @@ $show_complete_tasks = rand(0, 1);
                     <ul class="main-navigation__list">
                         <li class="main-navigation__list-item">
                             <a class="main-navigation__list-item-link" href="#"><?= $category ?></a>
-                            <span class="main-navigation__list-item-count">0</span>
+                            <span class="main-navigation__list-item-count"><?php print(count_of_tasks ($category, $tasks)); ?></span>
                         </li>
                     </ul>
                 <?php endforeach; ?>    
