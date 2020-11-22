@@ -162,3 +162,16 @@ function count_of_tasks ($name_of_category, $tasks_of_category) {
         return 0;
     }
 }
+
+function due_control ($due_time, $complete) {
+    $task_time = strtotime ($due_time);
+    $current_time = time();
+    $diff_time = $task_time - $current_time;
+    if ($due_time !== null and $diff_time <= 86400 and $complete == false) {
+        $important = 'task--important';
+    }
+    else {
+        $important = '';
+    }
+    return $important;
+}

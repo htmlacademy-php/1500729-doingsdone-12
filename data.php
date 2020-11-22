@@ -34,7 +34,7 @@ $tasks = [
     ],
     [
         'task' => 'Купить корм для кота',
-        'due_date' => null,
+        'due_date' => '24.11.2020',
         'category' => 'Домашние дела',
         'completed' => false  
     ],

@@ -48,10 +48,12 @@
                                  continue;
                              }
                     ?>
-                    <tr class="tasks__item task <?php echo($task['completed']) ? 'task--completed' : ''; ?>">
+                    <tr class="tasks__item task <?php echo($task['completed']) ? 'task--completed' : '';
+                                                      echo(due_control($task['due_date'], $task['completed'])); ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
-                                <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
+                                <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1"
+                                <?php echo($task['completed']) ? 'checked' : ''; ?>>
                                 <span class="checkbox__text"><?= strip_tags($task['task']); ?></span>
                             </label>
                         </td>
