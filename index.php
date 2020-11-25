@@ -1,6 +1,6 @@
 <?php
 require_once ('data.php');
-require_once ('helpers.php');
+require_once ('functions.php');
 
 $main = include_template ('main.php', ['show_complete_tasks' => $show_complete_tasks,
                                        'categories' => $categories,

@@ -162,12 +162,16 @@ function count_of_tasks ($name_of_category, $tasks_of_category) {
         return 0;
     }
 }
-
+/**
+ * контроль выполнения задач
+ * если до даты выполнения осталось меньше или равно суток,
+ * то добавляется иконка срочности и дата выделяется цветом.
+ */
 function due_control ($due_time, $complete) {
     $task_time = strtotime ($due_time);
     $current_time = time();
     $diff_time = $task_time - $current_time;
-    if ($due_time !== null and $diff_time <= 86400 and $complete == false) {
+    if ($due_time !== null && $diff_time <= 86400 && !$complete) {
         $important = 'task--important';
     }
     else {
