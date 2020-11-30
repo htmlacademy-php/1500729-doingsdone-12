@@ -142,3 +142,40 @@ function include_template($name, array $data = []) {
 
     return $result;
 }
+
+/**
+ * подсчитывает количество задач в категориях. 
+ * $name_of_category - имя категории
+ * $tasks_of_category - список задач 
+ */
+function count_of_tasks ($name_of_category, $tasks_of_category) {
+    $count_of_task === 0;
+    foreach ($tasks_of_category as $task_of_category) {
+        if ($task_of_category['category'] == $name_of_category) {
+            $count_of_task ++;
+        }
+    }
+    if ($count_of_task > 0) {
+        return $count_of_task;
+    }
+    else {
+        return 0;
+    }
+}
+/**
+ * контроль выполнения задач
+ * если до даты выполнения осталось меньше или равно суток,
+ * то добавляется иконка срочности и дата выделяется цветом.
+ */
+function due_control ($due_time, $complete) {
+    $task_time = strtotime ($due_time);
+    $current_time = time();
+    $diff_time = $task_time - $current_time;
+    if ($due_time !== null && $diff_time <= 86400 && !$complete) {
+        $important = 'task--important';
+    }
+    else {
+        $important = '';
+    }
+    return $important;
+}
