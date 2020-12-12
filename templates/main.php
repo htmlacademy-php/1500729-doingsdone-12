@@ -6,8 +6,8 @@
             <?php foreach ($categories as $category): ?>
                 <ul class="main-navigation__list">
                     <li class="main-navigation__list-item">
-                        <a class="main-navigation__list-item-link" href="#"><?= strip_tags($category) ?></a>
-                        <span class="main-navigation__list-item-count"><?= count_of_tasks ($category, $tasks); ?></span>
+                        <a class="main-navigation__list-item-link" href="#"><?= strip_tags($category['name_of_project']) ?></a>
+                        <span class="main-navigation__list-item-count"><?= count_of_tasks ($category['name_of_project'], $tasks); ?></span>
                     </li>
                 </ul>
             <?php endforeach; ?>    
@@ -42,18 +42,18 @@
 
         <table class="tasks">
         <?php foreach ($tasks as $task):
-            if (!$show_complete_tasks && $task['completed']) 
+            if (!$show_complete_tasks && $task['status']) 
                 {
                  continue;
                 }
         ?>
-            <tr class="tasks__item task <?= $task['completed'] ? 'task--completed' : '';
-                                            echo(due_control($task['due_date'], $task['completed'])); ?>">
+            <tr class="tasks__item task <?= $task['status'] ? 'task--completed' : '';
+                                            echo(due_control($task['due_date'], $task['status'])); ?>">
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
                         <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1"
-                        <?= $task['completed'] ? 'checked' : ''; ?>>
-                        <span class="checkbox__text"><?= strip_tags($task['task']); ?></span>
+                        <?= $task['status'] ? 'checked' : ''; ?>>
+                        <span class="checkbox__text"><?= strip_tags($task['name']); ?></span>
                     </label>
                 </td>
 
