@@ -18,9 +18,13 @@ if (!$link) {
        $result_task = mysqli_query ($link, $query_task);
        if ($result_task) {
            $tasks = mysqli_fetch_all ($result_task, MYSQLI_ASSOC);
-           print_r ($tasks);
        }
    }
+
+if (isset($_GET['name_of_projects'])) {
+    $type = $_GET['name_of_projects'];
+    print ($type);
+}
 
 $main = include_template ('main.php', ['show_complete_tasks' => $show_complete_tasks,
                                        'categories' => $categories,

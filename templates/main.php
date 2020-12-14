@@ -6,7 +6,7 @@
             <?php foreach ($categories as $category): ?>
                 <ul class="main-navigation__list">
                     <li class="main-navigation__list-item">
-                        <a class="main-navigation__list-item-link" href="#"><?= strip_tags($category['name_of_project']) ?></a>
+                        <a class="main-navigation__list-item-link" href='?name_of_projects=<?=$category['name_of_project']?>'><?= strip_tags($category['name_of_project']) ?></a>
                         <span class="main-navigation__list-item-count"><?= count_of_tasks ($category['name_of_project'], $tasks); ?></span>
                     </li>
                 </ul>

@@ -7,7 +7,7 @@
 function count_of_tasks ($name_of_category, $tasks_of_category) {
     $count_of_task === 0;
     foreach ($tasks_of_category as $task_of_category) {
-        if ($task_of_category['category'] == $name_of_category) {
+        if ($task_of_category['name_of_project'] == $name_of_category) {
             $count_of_task ++;
         }
     }
