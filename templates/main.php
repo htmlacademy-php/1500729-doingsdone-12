@@ -5,12 +5,12 @@
             <nav class="main-navigation">
             <?php foreach ($categories as $category): ?>
                 <ul class="main-navigation__list">
-                    <li class="main-navigation__list-item">
+                    <li class="main-navigation__list-item <?= ($type === $category['id']) ? $button_class : '' ?>">
                         <a class="main-navigation__list-item-link" href='?project_id=<?=$category['id']?>'><?= strip_tags($category['name_of_project']) ?></a>
                         <span class="main-navigation__list-item-count"><?= count_of_tasks ($category['name_of_project'], $tasks_for_count); ?></span>
                     </li>
-                </ul>
-            <?php endforeach; ?>    
+                </ul> 
+            <?php endforeach; ?>  
             </nav>
 
         <a class="button button--transparent button--plus content__side-button"

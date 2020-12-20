@@ -24,29 +24,31 @@ if (!$link) {
 
 if (isset($_GET['project_id'])) {
     $type = $_GET['project_id'];
-    print ($type);
     $query_projects_task = 'SELECT t.id, name, file, DATE_FORMAT(due_date, "%d.%m.%Y") due_date, status, p.id FROM tasks t
                             JOIN projects p ON t.project_id = p.id WHERE t.user_id = 1 AND p.id = ' . $type;
     $result_task = mysqli_query ($link, $query_projects_task);
     if ($result_task) {
         $tasks = mysqli_fetch_all ($result_task, MYSQLI_ASSOC);
-        print_r ($tasks);
-    }
-    else {
-        http_response_code(404);
     }
 }
-else {
-    http_response_code(404);
-}
-
-$main = include_template ('main.php', ['show_complete_tasks' => $show_complete_tasks,
+    
+    $main = include_template ('main.php', ['show_complete_tasks' => $show_complete_tasks,
                                        'categories' => $categories,
                                        'tasks' => $tasks,
-                                       'tasks_for_count' => $tasks_for_count]);
+                                       'tasks_for_count' => $tasks_for_count,
+                                       'type' => $type,
+                                       'button_class' => $button_class]);
 
-$layout = include_template ('layout.php', ['main' => $main,
+    $layout = include_template ('layout.php', ['main' => $main,
                                            'title' => $title,
                                            'user' => $user]);
 
-print ($layout);
+    if (empty($tasks)) {
+        http_response_code (404);
+    }
+    else {
+        print ($layout);
+    }
+    
+
+
