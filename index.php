@@ -13,24 +13,23 @@ if (!$link) {
        if ($result_of_projects) {
            $categories = mysqli_fetch_all ($result_of_projects, MYSQLI_ASSOC);
        }
-       $query_task = "SELECT name, file, DATE_FORMAT(due_date,'%d.%m.%Y') due_date, status, p.name_of_project FROM tasks t
-                      JOIN projects p ON t.project_id = p.id WHERE t.user_id = 1";
-       $result_task = mysqli_query ($link, $query_task);
+
+        if (isset($_GET['project_id'])) {
+            $type = $_GET['project_id'];
+            $filter = ' AND p.id = ' . $type;  
+        }
+        else {
+            $filter = '';
+        }
+        
+        $query_task = "SELECT name, file, DATE_FORMAT(due_date,'%d.%m.%Y') due_date, status, p.name_of_project FROM tasks t
+                      JOIN projects p ON t.project_id = p.id WHERE t.user_id = 1" . $filter;
+        $result_task = mysqli_query ($link, $query_task);
        if ($result_task) {
            $tasks = mysqli_fetch_all ($result_task, MYSQLI_ASSOC);
            $tasks_for_count = $tasks;
        }
    }
-
-if (isset($_GET['project_id'])) {
-    $type = $_GET['project_id'];
-    $query_projects_task = "SELECT t.id, name, file, DATE_FORMAT(due_date, '%d.%m.%Y') due_date, status, p.id FROM tasks t
-                            JOIN projects p ON t.project_id = p.id WHERE t.user_id = 1 AND p.id = " . $type;
-    $result_task = mysqli_query ($link, $query_projects_task);
-    if ($result_task) {
-        $tasks = mysqli_fetch_all ($result_task, MYSQLI_ASSOC);
-    }
-}
     
     $main = include_template ('main.php', ['show_complete_tasks' => $show_complete_tasks,
                                        'categories' => $categories,
