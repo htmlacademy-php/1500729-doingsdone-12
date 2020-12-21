@@ -6,7 +6,7 @@ require_once ('functions.php');
 if (!$link) {
     $error = mysqli_connect_error($link);
     print($error);
-   }
+}
    else {
        $query_projects = "SELECT id, name_of_project FROM projects WHERE user_id = 1";
        $result_of_projects = mysqli_query ($link, $query_projects);
@@ -24,8 +24,8 @@ if (!$link) {
 
 if (isset($_GET['project_id'])) {
     $type = $_GET['project_id'];
-    $query_projects_task = 'SELECT t.id, name, file, DATE_FORMAT(due_date, "%d.%m.%Y") due_date, status, p.id FROM tasks t
-                            JOIN projects p ON t.project_id = p.id WHERE t.user_id = 1 AND p.id = ' . $type;
+    $query_projects_task = "SELECT t.id, name, file, DATE_FORMAT(due_date, '%d.%m.%Y') due_date, status, p.id FROM tasks t
+                            JOIN projects p ON t.project_id = p.id WHERE t.user_id = 1 AND p.id = " . $type;
     $result_task = mysqli_query ($link, $query_projects_task);
     if ($result_task) {
         $tasks = mysqli_fetch_all ($result_task, MYSQLI_ASSOC);
@@ -50,5 +50,3 @@ if (isset($_GET['project_id'])) {
         print ($layout);
     }
     
-
-
