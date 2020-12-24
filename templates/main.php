@@ -42,11 +42,11 @@
 
         <table class="tasks">
         <?php foreach ($tasks as $task):
-            if (!$show_complete_tasks && $task['status']) 
-                {
+            if (!$show_complete_tasks && $task['status']) {
                  continue;
-                }
+            }
         ?>
+        
             <tr class="tasks__item task <?= $task['status'] ? 'task--completed' : '';
                                             echo(due_control($task['due_date'], $task['status'])); ?>">
                 <td class="task__select">
