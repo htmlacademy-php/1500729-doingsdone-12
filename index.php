@@ -8,7 +8,9 @@ if (!$link) {
     print($error);
    }
    else {
-       $query_projects = "SELECT id, name_of_project FROM projects WHERE user_id = 1";
+       $query_projects = "SELECT p.id, p.name_of_project, COUNT(t.id) AS count_of_tasks FROM projects p 
+                          LEFT JOIN tasks t ON p.id = t.project_id WHERE p.user_id = 1 
+                          GROUP BY p.name_of_project, p.id ORDER BY p.id";
        $result_of_projects = mysqli_query ($link, $query_projects);
        if ($result_of_projects) {
            $categories = mysqli_fetch_all ($result_of_projects, MYSQLI_ASSOC);

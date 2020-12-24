@@ -14,11 +14,14 @@ if (!$link) {
            $categories = mysqli_fetch_all ($result_of_projects, MYSQLI_ASSOC);
        }
    }
+
 $main = include_template ('form-task.php', ['categories' => $categories,
                                             'button_class' => $button_class]);
 
 $layout = include_template ('layout.php', ['main' => $main,
                             'title' => $title,
                             'user' => $user]);
+
+print_r ($_POST);
 
 print ($layout);
