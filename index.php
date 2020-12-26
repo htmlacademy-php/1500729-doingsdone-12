@@ -49,4 +49,7 @@ if (empty($tasks)) {
 else {
     print ($layout);
     }
-    
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    header("Location: /add.php?success=true");
+    }

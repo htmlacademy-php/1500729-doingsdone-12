@@ -7,7 +7,7 @@
                 <ul class="main-navigation__list">
                     <li class="main-navigation__list-item <?= ($type === $category['id']) ? $button_class : '' ?>">
                         <a class="main-navigation__list-item-link" href='?project_id=<?=$category['id']?>'><?= strip_tags($category['name_of_project']) ?></a>
-                        <span class="main-navigation__list-item-count"><?= count_of_tasks ($category['name_of_project'], $tasks_for_count); ?></span>
+                        <span class="main-navigation__list-item-count"><?= $category['count_of_tasks'] ?></span>
                     </li>
                 </ul> 
             <?php endforeach; ?>  
@@ -20,7 +20,7 @@
       <main class="content__main">
         <h2 class="content__main-heading">Добавление задачи</h2>
 
-        <form class="form"  action="index.html" method="post" autocomplete="off">
+        <form class="form"  action="add.php?submit=true" method="post" enctype="multipart/form-data" autocomplete="off">
           <div class="form__row">
             <label class="form__label" for="name">Название <sup>*</sup></label>
 
@@ -29,9 +29,11 @@
 
           <div class="form__row">
             <label class="form__label" for="project">Проект <sup>*</sup></label>
-
+            
             <select class="form__input form__input--select" name="project" id="project">
-              <option value="">Входящие</option>
+            <?php foreach ($categories as $category): ?>
+              <option value="<?= $category['id'] ?>"><?= $category['name_of_project']; ?></option>
+              <?php endforeach; ?>
             </select>
           </div>
 
@@ -54,7 +56,7 @@
           </div>
 
           <div class="form__row form__row--controls">
-            <input class="button" type="submit" name="" value="Добавить">
+            <input class="button" type="submit" name="send" value="Добавить">
           </div>
         </form>
       </main>
