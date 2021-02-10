@@ -5,9 +5,9 @@
  * $tasks_of_category - список задач 
  */
 function count_of_tasks ($name_of_category, $tasks_of_category) {
-    $count_of_task === 0;
+    $count_of_task = 0;
     foreach ($tasks_of_category as $task_of_category) {
-        if ($task_of_category['name_of_project'] == $name_of_category) {
+        if ($task_of_category['name_of_project'] === $name_of_category) {
             $count_of_task ++;
         }
     }
@@ -57,4 +57,11 @@ function include_template($name, array $data = []) {
     $result = ob_get_clean();
 
     return $result;
+}
+
+function is_date_valid(string $date) : bool {
+    $format_to_check = 'Y-m-d';
+    $dateTimeObj = date_create_from_format($format_to_check, $date);
+
+    return $dateTimeObj !== false && array_sum(date_get_last_errors()) === 0;
 }

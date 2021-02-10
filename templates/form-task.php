@@ -7,7 +7,7 @@
                 <ul class="main-navigation__list">
                     <li class="main-navigation__list-item <?= ($type === $category['id']) ? $button_class : '' ?>">
                         <a class="main-navigation__list-item-link" href='?project_id=<?=$category['id']?>'><?= strip_tags($category['name_of_project']) ?></a>
-                        <span class="main-navigation__list-item-count"><?= count_of_tasks ($category['name_of_project'], $tasks_for_count); ?></span>
+                        <span class="main-navigation__list-item-count"><?= $category['count_of_tasks'] ?></span>
                     </li>
                 </ul> 
             <?php endforeach; ?>  
@@ -20,25 +20,36 @@
       <main class="content__main">
         <h2 class="content__main-heading">Добавление задачи</h2>
 
-        <form class="form"  action="index.html" method="post" autocomplete="off">
+        <form class="form"  action="add.php?submit=true" method="post" enctype="multipart/form-data" autocomplete="off">
           <div class="form__row">
+            <?php if ($error['name']): ?>
+            <p class="form__message"><?= $error['name']; ?> </p>
+            <?php endif; ?>
             <label class="form__label" for="name">Название <sup>*</sup></label>
 
-            <input class="form__input" type="text" name="name" id="name" value="" placeholder="Введите название">
+            <input class="form__input <?=  $error['name'] ? $error_class : '' ?> " type="text" name="name" id="name" value="" placeholder="Введите название">
           </div>
 
           <div class="form__row">
+          <?php if ($error['project']): ?>
+            <p class="form__message"><?= $error['project']; ?> </p>
+            <?php endif; ?>
             <label class="form__label" for="project">Проект <sup>*</sup></label>
-
-            <select class="form__input form__input--select" name="project" id="project">
-              <option value="">Входящие</option>
+            
+            <select class="form__input form__input--select <?=  $error['project'] ? $error_class : '' ?>" name="project" id="project">
+            <?php foreach ($categories as $category): ?>
+              <option value="<?= $category['id'] ?>"><?= $category['name_of_project']; ?></option>
+              <?php endforeach; ?>
             </select>
           </div>
 
           <div class="form__row">
+          <?php if ($error['date']): ?>
+            <p class="form__message"><?= $error['date']; ?> </p>
+            <?php endif; ?>
             <label class="form__label" for="date">Дата выполнения</label>
 
-            <input class="form__input form__input--date" type="text" name="date" id="date" value="" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
+            <input class="form__input form__input--date <?=  $error['date'  ] ? $error_class : '' ?>" type="text" name="date" id="date" value="" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
           </div>
 
           <div class="form__row">
@@ -54,7 +65,7 @@
           </div>
 
           <div class="form__row form__row--controls">
-            <input class="button" type="submit" name="" value="Добавить">
+            <input class="button" type="submit" name="send" value="Добавить">
           </div>
         </form>
       </main>
