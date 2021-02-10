@@ -29,14 +29,14 @@ else {
     $file_url = NULL;
 }
 
-if ($_GET['submit'] == 'true'){
+if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     if (empty ($_POST['date'])) {
-        $due_date = "";
+        $due_date = '';
     }
     else {
         $due_date = "due_date = '" . $_POST['date'] . "',";
     }
-
+  
     if (!(is_date_valid($_POST['date'])) && $_POST['date'] != NULL) {
         $error['date'] = 'Неверный формат даты';
     }
@@ -63,6 +63,7 @@ if ($_GET['submit'] == 'true'){
     }
 
     print_r ($error);
+    print ($due_date);
 
     if (!$error) {
         $add_task = "INSERT INTO tasks SET name = '" . $_POST['name'] . "', 
@@ -74,6 +75,7 @@ if ($_GET['submit'] == 'true'){
         $resalt_of_add_task = mysqli_query ($link, $add_task);
         if ($resalt_of_add_task) {
         print ('ок');
+        header("Location: /?success=true");
         }
 }
 }

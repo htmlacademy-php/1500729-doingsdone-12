@@ -56,11 +56,13 @@
                         <span class="checkbox__text"><?= strip_tags($task['name']); ?></span>
                     </label>
                 </td>
-
+                <?php if ($task['file']): ?>
                 <td class="task__file">
-                    <a class="download-link" href="<?= $task['file'] ?>">Home.psd</a>
+                    <a class="download-link" href="<?= $task['file'] ?>"><?= strip_tags(substr($task['file'], 5)); ?></a>
                 </td>
-
+                <?php else: ?>
+                <td></td>
+                <?php endif; ?>
                 <td class="task__date"><?= strip_tags($task['due_date']); ?></td>
             </tr>
         <?php endforeach; ?>
