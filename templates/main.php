@@ -14,7 +14,7 @@
             </nav>
 
         <a class="button button--transparent button--plus content__side-button"
-        href="pages/form-project.html" target="project_add">Добавить проект</a>
+        href="add.php" target="project_add">Добавить проект</a>
     </section>
 
     <main class="content__main">
@@ -58,7 +58,7 @@
                 </td>
 
                 <td class="task__file">
-                    <a class="download-link" href="#">Home.psd</a>
+                    <a class="download-link" href="<?= $task['file'] ?>">Home.psd</a>
                 </td>
 
                 <td class="task__date"><?= strip_tags($task['due_date']); ?></td>

@@ -16,33 +16,72 @@ if (!$link) {
            $categories = mysqli_fetch_all ($result_of_projects, MYSQLI_ASSOC);
        }
    }
-
-print_r ($_FILES);
-
-if (isset($_FILES['file'])) {
+   
+if ($_FILES['file']['error'] === 0) {
+    
     $file_name = $_FILES['file']['name'];
     $file_path = __DIR__ . '/img/';
     $file_url = '/img/' . $file_name;
     
     move_uploaded_file($_FILES['file']['tmp_name'], $file_path . $file_name);
-    
-    print("<a href='$file_url'>$file_name</a>");
+}
+else {
+    $file_url = NULL;
 }
 
 if ($_GET['submit'] == 'true'){
-    $add_task = "INSERT INTO tasks SET name = '" . $_POST['name'] . "', 
-                                       project_id = " . $_POST['project'] . ", 
-                                       due_date = '" . $_POST['date'] . "',
-                                       file = '" . $file_url . "', 
-                                       user_id = 1";
-    $resalt_of_add_task = mysqli_query ($link, $add_task);
-    if ($resalt_of_add_task) {
-        print ('ок');
+    if (empty ($_POST['date'])) {
+        $due_date = "";
     }
+    else {
+        $due_date = "due_date = '" . $_POST['date'] . "',";
+    }
+
+    if (!(is_date_valid($_POST['date'])) && $_POST['date'] != NULL) {
+        $error['date'] = 'Неверный формат даты';
+    }
+    if ($_POST['date']) {
+        $deadline = strtotime ($_POST['date']);
+        $today = strtotime (date('Y-m-d'));
+        if ($deadline < $today) {
+            $error['date'] = 'Срок выполнения не может быть меньше текущей даты';
+        }
+    }
+    
+    if (empty ($_POST['name'])) {
+        $error['name'] = 'Поле не заполнено';
+    }
+   
+    foreach ($categories as $category) {
+        if ($_POST['project'] !== $category['id']) {
+            $error['project'] = 'Такого проекта не существует';
+        }
+        else {
+            unset ($error['project']);
+            break;
+        }
+    }
+
+    print_r ($error);
+
+    if (!$error) {
+        $add_task = "INSERT INTO tasks SET name = '" . $_POST['name'] . "', 
+        project_id = " . $_POST['project'] . ", 
+        $due_date
+        file = '" . $file_url . "', 
+        user_id = 1";
+        print ($add_task);
+        $resalt_of_add_task = mysqli_query ($link, $add_task);
+        if ($resalt_of_add_task) {
+        print ('ок');
+        }
+}
 }
 
 $main = include_template ('form-task.php', ['categories' => $categories,
-                                            'button_class' => $button_class]);
+                                            'button_class' => $button_class,
+                                            'error' => $error,
+                                            'error_class' => $error_class]);
 
 $layout = include_template ('layout.php', ['main' => $main,
                             'title' => $title,
