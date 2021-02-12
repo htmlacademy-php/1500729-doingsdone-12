@@ -62,8 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         }
     }
 
-    print_r ($error);
-    print ($due_date);
 
     if (!$error) {
         $add_task = "INSERT INTO tasks SET name = '" . $_POST['name'] . "', 
@@ -71,10 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $due_date
         file = '" . $file_url . "', 
         user_id = 1";
-        print ($add_task);
         $resalt_of_add_task = mysqli_query ($link, $add_task);
         if ($resalt_of_add_task) {
-        print ('ок');
         header("Location: /?success=true");
         }
 }
