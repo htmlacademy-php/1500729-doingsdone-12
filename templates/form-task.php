@@ -22,7 +22,7 @@
 
         <form class="form"  action="add.php?submit=true" method="post" enctype="multipart/form-data" autocomplete="off">
           <div class="form__row">
-            <?php if ($error['name']): ?>
+            <?php if (isset($error['name'])): ?>
             <p class="form__message"><?= $error['name']; ?> </p>
             <?php endif; ?>
             <label class="form__label" for="name">Название <sup>*</sup></label>
@@ -32,7 +32,7 @@
           </div>
 
           <div class="form__row">
-          <?php if ($error['project']): ?>
+          <?php if (isset($error['project'])): ?>
             <p class="form__message"><?= $error['project']; ?> </p>
             <?php endif; ?>
             <label class="form__label" for="project">Проект <sup>*</sup></label>
@@ -45,7 +45,7 @@
           </div>
 
           <div class="form__row">
-          <?php if ($error['date']): ?>
+          <?php if (isset($error['date'])): ?>
             <p class="form__message"><?= $error['date']; ?> </p>
             <?php endif; ?>
             <label class="form__label" for="date">Дата выполнения</label>

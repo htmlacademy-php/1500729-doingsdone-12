@@ -2,7 +2,7 @@
 $db = [
     'host' => '127.0.0.1',
     'login' => 'root',
-    'password' => '123456',
+    'password' => 'root',
     'base' => 'doingsdone'
 ];
 
