@@ -6,8 +6,7 @@ require_once ('functions.php');
 if (!$link) {
     $error = mysqli_connect_error($link);
     print($error);
-   }
-   else {
+} else {
        $query_projects = "SELECT p.id, p.name_of_project, COUNT(t.id) AS count_of_tasks FROM projects p 
                           LEFT JOIN tasks t ON p.id = t.project_id WHERE p.user_id = 1 
                           GROUP BY p.name_of_project, p.id ORDER BY p.id";
@@ -15,65 +14,62 @@ if (!$link) {
        if ($result_of_projects) {
            $categories = mysqli_fetch_all ($result_of_projects, MYSQLI_ASSOC);
        }
-   }
-   
-if ($_FILES['file']['error'] === 0) {
+}
+
+$file_url= NULL;
+if ($_FILES && $_FILES['file']['error'] === 0) {
     
     $file_name = $_FILES['file']['name'];
     $file_path = __DIR__ . '/img/';
     $file_url = '/img/' . $file_name;
     
     move_uploaded_file($_FILES['file']['tmp_name'], $file_path . $file_name);
-}
-else {
-    $file_url = NULL;
-}
+} 
 
+$error = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-    if (empty ($_POST['date'])) {
-        $due_date = '';
-    }
-    else {
-        $due_date = "due_date = '" . $_POST['date'] . "',";
-    }
-  
-    if (!(is_date_valid($_POST['date'])) && $_POST['date'] != NULL) {
-        $error['date'] = 'Неверный формат даты';
-    }
-    if ($_POST['date']) {
-        $deadline = strtotime ($_POST['date']);
-        $today = strtotime (date('Y-m-d'));
-        if ($deadline < $today) {
+
+    $due_date = NULL;
+    if (!empty ($_POST['date'])) {
+        $due_date =  $_POST['date'];
+
+        if (!(is_date_valid($_POST['date']))) {
+            $error['date'] = 'Неверный формат даты';
+        } else {
+            $deadline = strtotime ($_POST['date']);
+            $today = strtotime (date('Y-m-d'));
+            if ($deadline < $today) {
             $error['date'] = 'Срок выполнения не может быть меньше текущей даты';
         }
-    }
+        }
+    } 
     
     if (empty ($_POST['name'])) {
         $error['name'] = 'Поле не заполнено';
     }
-   
+
+    $valid_project = '';
     foreach ($categories as $category) {
-        if ($_POST['project'] !== $category['id']) {
-            $error['project'] = 'Такого проекта не существует';
-        }
-        else {
-            unset ($error['project']);
+        if ($_POST['project'] === $category['id']) {
+            $valid_project = TRUE;
             break;
         }
     }
+    if (!$valid_project) {
+        $error['project'] = 'Такого проекта не существует';
+    }
 
+    if (empty($error)) {
+        $add_task = "INSERT INTO tasks (NAME, project_id, due_date, FILE, user_id) 
+                     VALUES (?, ?, ?, ?, 1)";
+        $stmt = mysqli_prepare ($link, $add_task);
+        mysqli_stmt_bind_param ($stmt, 'siss', $_POST['name'], $_POST['project'], $due_date, $file_url);
+        $resalt_of_add_task = mysqli_stmt_execute ($stmt);
 
-    if (!$error) {
-        $add_task = "INSERT INTO tasks SET name = '" . $_POST['name'] . "', 
-        project_id = " . $_POST['project'] . ", 
-        $due_date
-        file = '" . $file_url . "', 
-        user_id = 1";
-        $resalt_of_add_task = mysqli_query ($link, $add_task);
         if ($resalt_of_add_task) {
-        header("Location: /?success=true");
-        }
-}
+            header("Location: /?success=true");
+        } 
+    }
 }
 
 $main = include_template ('form-task.php', ['categories' => $categories,
