@@ -27,7 +27,7 @@
             <?php endif; ?>
             <label class="form__label" for="name">Название <sup>*</sup></label>
 
-            <input class="form__input <?=  $error['name'] ? $error_class : '' ?> " type="text" name="name" id="name" value="<?=  $error ? getPostVal('name') : '' ?>" placeholder="Введите название">
+            <input class="form__input <?=  isset($error['name']) ? $error_class : '' ?> " type="text" name="name" id="name" value="<?=  $error ? getPostVal('name') : '' ?>" placeholder="Введите название">
      
           </div>
 
@@ -37,7 +37,7 @@
             <?php endif; ?>
             <label class="form__label" for="project">Проект <sup>*</sup></label>
             
-            <select class="form__input form__input--select <?=  $error['project'] ? $error_class : '' ?>" name="project" id="project">
+            <select class="form__input form__input--select <?=  isset($error['project']) ? $error_class : '' ?>" name="project" id="project">
             <?php foreach ($categories as $category): ?>
               <option value="<?= $category['id'] ?>"><?= $category['name_of_project']; ?></option>
               <?php endforeach; ?>
@@ -50,7 +50,7 @@
             <?php endif; ?>
             <label class="form__label" for="date">Дата выполнения</label>
 
-            <input class="form__input form__input--date <?=  $error['date'] ? $error_class : '' ?>" type="text" name="date" id="date" value="<?=  $error ? getPostVal('date') : '' ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
+            <input class="form__input form__input--date <?=  isset($error['date']) ? $error_class : '' ?>" type="text" name="date" id="date" value="<?=  $error ? getPostVal('date') : '' ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
             
           </div>
 
