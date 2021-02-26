@@ -7,14 +7,14 @@
                 <ul class="main-navigation__list">
                     <li class="main-navigation__list-item <?= ($type === $category['id']) ? $button_class : '' ?>">
                         <a class="main-navigation__list-item-link" href='?project_id=<?=$category['id']?>'><?= strip_tags($category['name_of_project']) ?></a>
-                        <span class="main-navigation__list-item-count"><?= $category['count_of_tasks'] ?></span>
+                        <span class="main-navigation__list-item-count"><?= $category['count_of_tasks']; ?></span>
                     </li>
                 </ul> 
             <?php endforeach; ?>  
             </nav>
 
         <a class="button button--transparent button--plus content__side-button"
-        href="pages/form-project.html" target="project_add">Добавить проект</a>
+        href="add.php" target="project_add">Добавить проект</a>
     </section>
 
     <main class="content__main">
@@ -56,11 +56,13 @@
                         <span class="checkbox__text"><?= strip_tags($task['name']); ?></span>
                     </label>
                 </td>
-
+                <?php if ($task['file']): ?>
                 <td class="task__file">
-                    <a class="download-link" href="#">Home.psd</a>
+                    <a class="download-link" href="<?= $task['file'] ?>"><?= strip_tags(substr($task['file'], 5)); ?></a>
                 </td>
-
+                <?php else: ?>
+                <td></td>
+                <?php endif; ?>
                 <td class="task__date"><?= strip_tags($task['due_date']); ?></td>
             </tr>
         <?php endforeach; ?>
