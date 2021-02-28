@@ -38,7 +38,7 @@
               <label class="form__label" for="email">E-mail <sup>*</sup></label>
 
               <input class="form__input <?= $errors['email'] ? $error_class : '' ?>" type="text" name="email" id="email" value="" placeholder="Введите e-mail">
-              <?php if ($errors['email']): ?>
+              <?php if (isset($errors['email'])): ?>
               <p class="form__message"><?= $errors['email'];?></p>
               <?php endif; ?>
             </div>
@@ -47,7 +47,7 @@
               <label class="form__label" for="password">Пароль <sup>*</sup></label>
 
               <input class="form__input <?= $errors['password'] ? $error_class : '' ?>" type="password" name="password" id="password" value="" placeholder="Введите пароль">
-              <?php if ($errors['password']): ?>
+              <?php if (isset($errors['password'])): ?>
               <p class="form__message"><?= $errors['password'];?></p>
               <?php endif; ?>
             </div>
@@ -62,7 +62,7 @@
             </div>
 
             <div class="form__row form__row--controls">
-              <?php if (isset ($errors)): ?>
+              <?php if (!empty($errors)): ?>
               <p class="error-message">Пожалуйста, исправьте ошибки в форме</p>
               <?php endif; ?>
 
