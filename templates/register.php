@@ -37,7 +37,7 @@
             <div class="form__row">
               <label class="form__label" for="email">E-mail <sup>*</sup></label>
 
-              <input class="form__input <?= $errors['email'] ? $error_class : '' ?>" type="text" name="email" id="email" value="" placeholder="Введите e-mail">
+              <input class="form__input <?= isset($errors['email']) ? $error_class : '' ?>" type="text" name="email" id="email" value="<?=  $errors ? getPostVal('email') : '' ?>" placeholder="Введите e-mail">
               <?php if (isset($errors['email'])): ?>
               <p class="form__message"><?= $errors['email'];?></p>
               <?php endif; ?>
@@ -46,7 +46,7 @@
             <div class="form__row">
               <label class="form__label" for="password">Пароль <sup>*</sup></label>
 
-              <input class="form__input <?= $errors['password'] ? $error_class : '' ?>" type="password" name="password" id="password" value="" placeholder="Введите пароль">
+              <input class="form__input <?= isset($errors['password']) ? $error_class : '' ?>" type="password" name="password" id="password" value="" placeholder="Введите пароль">
               <?php if (isset($errors['password'])): ?>
               <p class="form__message"><?= $errors['password'];?></p>
               <?php endif; ?>
@@ -55,7 +55,7 @@
             <div class="form__row">
               <label class="form__label" for="name">Имя <sup>*</sup></label>
 
-              <input class="form__input <?= $errors['name'] ? $error_class : '' ?>" type="text" name="name" id="name" value="" placeholder="Введите имя">
+              <input class="form__input <?= isset($errors['name']) ? $error_class : '' ?>" type="text" name="name" id="name" value="<?=  $errors ? getPostVal('name') : '' ?>" placeholder="Введите имя">
               <?php if (isset($errors['name'])): ?>
               <p class="form__message"><?= $errors['name'];?></p>
               <?php endif; ?>
