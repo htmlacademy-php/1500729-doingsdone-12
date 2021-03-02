@@ -3,14 +3,21 @@ require_once('data.php');
 require_once('connect.php');
 require_once('functions.php');
 
+if(!isset($_SESSION['user'])) {
+    $main = include_template('guest.php', []);
+    print($main);
+    exit();
+}
+
+$user = $_SESSION['user'];
 //*здесь сразу собираю и проекты и количество задач в проектах
 if (!$link) {
     $error = mysqli_connect_error($link);
     print($error);
 } else {
     $query_projects = "SELECT p.id, p.name_of_project, COUNT(t.id) AS count_of_tasks FROM projects p 
-                           LEFT JOIN tasks t ON p.id = t.project_id WHERE p.user_id = 1 
-                           GROUP BY p.name_of_project, p.id ORDER BY p.id";
+                           LEFT JOIN tasks t ON p.id = t.project_id WHERE p.user_id =" . $user['id'] .
+                           "GROUP BY p.name_of_project, p.id ORDER BY p.id";
     $result_of_projects = mysqli_query($link, $query_projects);
     if ($result_of_projects) {
         $categories = mysqli_fetch_all($result_of_projects, MYSQLI_ASSOC);
@@ -45,7 +52,7 @@ $layout = include_template('layout.php', [
     'user' => $user
 ]);
 
-if (empty($tasks)) {
+if (empty($tasks) && empty($type)) {
     http_response_code(404);
 } else {
     print($layout);

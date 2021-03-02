@@ -24,9 +24,9 @@
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__data">
-                        <p><?= strip_tags($user); ?></p>
+                        <p><?= strip_tags($user['name']); ?></p>
 
-                        <a href="#">Выйти</a>
+                        <a href="/logout.php">Выйти</a>
                     </div>
                 </div>
             </div>
