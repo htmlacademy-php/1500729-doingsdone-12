@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    if (empty($errors)) {
+    if (count($errors) == 0) {
         $password = password_hash($form['password'], PASSWORD_DEFAULT);
         $sql = 'INSERT INTO users (email, name, password) VALUES (?, ?, ?)';
         $stmt = mysqli_prepare($link, $sql);
