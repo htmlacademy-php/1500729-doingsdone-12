@@ -3,13 +3,19 @@ require_once('data.php');
 require_once('connect.php');
 require_once('functions.php');
 
-if(!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user'])) {
     $main = include_template('guest.php', []);
-    print($main);
+    $layout = include_template(
+        'layout.php',
+        ['main' => $main]
+    );
+    print($layout);
     exit();
 }
 
 $user = $_SESSION['user'];
+$categories = [];
+$tasks = [];
 //*здесь сразу собираю и проекты и количество задач в проектах
 if (!$link) {
     $error = mysqli_connect_error($link);
@@ -31,7 +37,7 @@ if (!$link) {
     }
 
     $query_task = "SELECT name, file, DATE_FORMAT(due_date,'%d.%m.%Y') due_date, status, p.name_of_project FROM tasks t
-        JOIN projects p ON t.project_id = p.id WHERE t.user_id = 1" . $filter;
+        JOIN projects p ON t.project_id = p.id WHERE t.user_id =" . $user['id'] . $filter;
     $result_task = mysqli_query($link, $query_task);
     if ($result_task) {
         $tasks = mysqli_fetch_all($result_task, MYSQLI_ASSOC);
@@ -52,7 +58,7 @@ $layout = include_template('layout.php', [
     'user' => $user
 ]);
 
-if (empty($tasks) && empty($type)) {
+if (empty($tasks) && !empty($type)) {
     http_response_code(404);
 } else {
     print($layout);

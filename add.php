@@ -3,12 +3,17 @@ require_once ('data.php');
 require_once ('connect.php');
 require_once ('functions.php');
 
+if (!isset($_SESSION['user'])) {
+    header("Location: /index.php");
+    exit();
+}
+
 if (!$link) {
     $error = mysqli_connect_error($link);
     print($error);
 } else {
        $query_projects = "SELECT p.id, p.name_of_project, COUNT(t.id) AS count_of_tasks FROM projects p 
-                          LEFT JOIN tasks t ON p.id = t.project_id WHERE p.user_id = 1 
+                          LEFT JOIN tasks t ON p.id = t.project_id WHERE p.user_id =" . $_SESSION['user']['id'] . "
                           GROUP BY p.name_of_project, p.id ORDER BY p.id";
        $result_of_projects = mysqli_query ($link, $query_projects);
        if ($result_of_projects) {
@@ -78,7 +83,6 @@ $main = include_template ('form-task.php', ['categories' => $categories,
                                             'error_class' => $error_class]);
 
 $layout = include_template ('layout.php', ['main' => $main,
-                            'title' => $title,
-                            'user' => $user]);
+                            'title' => $title]);
 
 print ($layout);
