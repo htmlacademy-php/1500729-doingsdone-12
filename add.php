@@ -66,9 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     if (empty($error)) {
         $add_task = "INSERT INTO tasks (NAME, project_id, due_date, FILE, user_id) 
-                     VALUES (?, ?, ?, ?, 1)";
+                     VALUES (?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare ($link, $add_task);
-        mysqli_stmt_bind_param ($stmt, 'siss', $_POST['name'], $_POST['project'], $due_date, $file_url);
+        mysqli_stmt_bind_param ($stmt, 'sissi', $_POST['name'], $_POST['project'], $due_date, $file_url, $_SESSION['user']['id']);
         $resalt_of_add_task = mysqli_stmt_execute ($stmt);
 
         if ($resalt_of_add_task) {

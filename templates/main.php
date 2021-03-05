@@ -14,14 +14,14 @@
             </nav>
 
         <a class="button button--transparent button--plus content__side-button"
-        href="add.php" target="project_add">Добавить проект</a>
+        href="form-project.php" target="project_add">Добавить проект</a>
     </section>
 
     <main class="content__main">
         <h2 class="content__main-heading">Список задач</h2>
 
-        <form class="search-form" action="index.php" method="post" autocomplete="off">
-            <input class="search-form__input" type="text" name="" value="" placeholder="Поиск по задачам">
+        <form class="search-form" action="index.php?seach=" method="post" autocomplete="off">
+            <input class="search-form__input" type="text" name="seach" id="seach" value="<?=getPostVal('seach')?>" placeholder="Поиск по задачам">
             <input class="search-form__submit" type="submit" name="" value="Искать">
         </form>
 
@@ -39,7 +39,9 @@
                 <span class="checkbox__text">Показывать выполненные</span>
             </label>
         </div>
-
+        <?php if (isset($_GET['seach']) && empty($tasks)): ?>
+        <p><?= $seach_error ?> </p>
+        <?php else: ?>
         <table class="tasks">
         <?php foreach ($tasks as $task):
             if (!$show_complete_tasks && $task['status']) {
@@ -80,6 +82,7 @@
             </tr>
         <?php endif; ?>
         </table>
+        <?php endif; ?>
     </main>
 </div>
         
