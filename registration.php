@@ -40,13 +40,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-$layout = include_template(
+$main = include_template(
     'register.php',
     [
-        'user' => $user,
         'errors' => $errors,
         'error_class' => $error_class
     ]
 );
+
+$layout = include_template('layout.php', ['main' => $main]);
 
 print($layout);

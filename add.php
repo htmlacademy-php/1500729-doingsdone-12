@@ -3,12 +3,17 @@ require_once ('data.php');
 require_once ('connect.php');
 require_once ('functions.php');
 
+if (!isset($_SESSION['user'])) {
+    header("Location: /index.php");
+    exit();
+}
+
 if (!$link) {
     $error = mysqli_connect_error($link);
     print($error);
 } else {
        $query_projects = "SELECT p.id, p.name_of_project, COUNT(t.id) AS count_of_tasks FROM projects p 
-                          LEFT JOIN tasks t ON p.id = t.project_id WHERE p.user_id = 1 
+                          LEFT JOIN tasks t ON p.id = t.project_id WHERE p.user_id =" . $_SESSION['user']['id'] . "
                           GROUP BY p.name_of_project, p.id ORDER BY p.id";
        $result_of_projects = mysqli_query ($link, $query_projects);
        if ($result_of_projects) {
@@ -61,9 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     if (empty($error)) {
         $add_task = "INSERT INTO tasks (NAME, project_id, due_date, FILE, user_id) 
-                     VALUES (?, ?, ?, ?, 1)";
+                     VALUES (?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare ($link, $add_task);
-        mysqli_stmt_bind_param ($stmt, 'siss', $_POST['name'], $_POST['project'], $due_date, $file_url);
+        mysqli_stmt_bind_param ($stmt, 'sissi', $_POST['name'], $_POST['project'], $due_date, $file_url, $_SESSION['user']['id']);
         $resalt_of_add_task = mysqli_stmt_execute ($stmt);
 
         if ($resalt_of_add_task) {
@@ -78,7 +83,6 @@ $main = include_template ('form-task.php', ['categories' => $categories,
                                             'error_class' => $error_class]);
 
 $layout = include_template ('layout.php', ['main' => $main,
-                            'title' => $title,
-                            'user' => $user]);
+                            'title' => $title]);
 
 print ($layout);
