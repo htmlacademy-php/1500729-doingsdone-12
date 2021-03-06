@@ -23,7 +23,10 @@
           <div class="form__row">
             <label class="form__label" for="project_name">Название <sup>*</sup></label>
 
-            <input class="form__input" type="text" name="project_name" id="project_name" value="" placeholder="Введите название проекта">
+            <input class="form__input <?= $errors ? $error_class : '' ?>" type="text" name="project_name" id="project_name" value="<?=  $errors ? getPostVal('project_name') : '' ?>" placeholder="Введите название проекта">
+            <?php if ($errors) : ?>
+              <p class="form__message"><?= $errors;?></p>
+              <?php endif; ?>
           </div>
 
           <div class="form__row form__row--controls">
