@@ -36,7 +36,7 @@ if (!$link) {
         $filter = ' AND p.id = ' . $type;
     }
 
-    $query_task = "SELECT name, file, DATE_FORMAT(due_date,'%d.%m.%Y') due_date, status, p.name_of_project FROM tasks t
+    $query_task = "SELECT t.id, name, file, DATE_FORMAT(due_date,'%d.%m.%Y') due_date, status, p.name_of_project FROM tasks t
         JOIN projects p ON t.project_id = p.id WHERE t.user_id =" . $user['id'] . $filter;
     $result_task = mysqli_query($link, $query_task);
     if ($result_task) {
@@ -53,6 +53,26 @@ if (!$link) {
             } 
         }
     }
+
+    if (isset($_GET['task_id']) && isset($_GET['check'])) {
+        mysqli_begin_transaction($link);
+
+        $query_task = "SELECT * FROM tasks WHERE id = " . $_GET['task_id'];
+        $result_task = mysqli_query($link, $query_task);
+        $query_update_status = "UPDATE tasks SET status = abs(status-1) WHERE id = " . $_GET['task_id'];
+        $result_update_status = mysqli_query($link, $query_update_status);
+
+        if ($result_task && $result_update_status) {
+            mysqli_commit($link);
+            header("Location: /index.php");
+    exit();
+        } else {
+            mysqli_rollback($link);
+        }   
+    }
+}
+if (isset($_GET['show_completed'])) {
+    $show_complete_tasks = $_GET['show_completed'];
 }
 
 $main = include_template('main.php', [
