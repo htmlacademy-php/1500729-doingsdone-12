@@ -7,7 +7,7 @@
                 <ul class="main-navigation__list">
                     <li class="main-navigation__list-item <?= ($type === $category['id']) ? $button_class : '' ?>">
                         <a class="main-navigation__list-item-link" href='?project_id=<?=$category['id']?>'><?= strip_tags($category['name_of_project']) ?></a>
-                        <span class="main-navigation__list-item-count"><?= $category['count_of_tasks']; ?></span>
+                        <span class="main-navigation__list-item-count"><?= count_of_tasks($category['name_of_project'], $tasks) ?></span>
                     </li>
                 </ul> 
             <?php endforeach; ?>  
@@ -27,10 +27,10 @@
 
         <div class="tasks-controls">
             <nav class="tasks-switch">
-                <a href="/" class="tasks-switch__item tasks-switch__item--active">Все задачи</a>
-                <a href="/" class="tasks-switch__item">Повестка дня</a>
-                <a href="/" class="tasks-switch__item">Завтра</a>
-                <a href="/" class="tasks-switch__item">Просроченные</a>
+                <a href="/" class="tasks-switch__item <?= !isset($_GET['date']) ? 'tasks-switch__item--active' : '' ?>">Все задачи</a>
+                <a href="/?date=today" class="tasks-switch__item <?= isset($_GET['date']) && $_GET['date'] == 'today' ? 'tasks-switch__item--active' : '' ?>">Повестка дня</a>
+                <a href="/?date=tomorrow" class="tasks-switch__item <?= isset($_GET['date']) && $_GET['date'] == 'tomorrow' ? 'tasks-switch__item--active' : '' ?>">Завтра</a>
+                <a href="/?date=overdue" class="tasks-switch__item <?= isset($_GET['date']) && $_GET['date'] == 'overdue' ? 'tasks-switch__item--active' : '' ?>">Просроченные</a>
             </nav>
 
             <label class="checkbox">

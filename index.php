@@ -21,9 +21,7 @@ if (!$link) {
     $error = mysqli_connect_error($link);
     print($error);
 } else {
-    $query_projects = "SELECT p.id, p.name_of_project, COUNT(t.id) AS count_of_tasks FROM projects p 
-                           LEFT JOIN tasks t ON p.id = t.project_id WHERE p.user_id =" . $user['id'] .
-        " GROUP BY p.name_of_project, p.id ORDER BY p.id";
+    $query_projects = "SELECT p.id, p.name_of_project FROM projects p  WHERE p.user_id = " . $user['id'] . " ORDER BY p.id;";
     $result_of_projects = mysqli_query($link, $query_projects);
     if ($result_of_projects) {
         $categories = mysqli_fetch_all($result_of_projects, MYSQLI_ASSOC);
@@ -31,13 +29,36 @@ if (!$link) {
 
     $filter = '';
     $type = '';
+    $due_date = '';
     if (isset($_GET['project_id'])) {
         $type = $_GET['project_id'];
         $filter = ' AND p.id = ' . $type;
     }
 
+    if (isset($_GET['date'])) {
+        switch ($_GET['date']) {
+            case 'today':
+                $date = date('Y-m-d');
+                $due_date = " AND due_date = '" . $date . "'";
+                break;
+    
+
+            case 'tomorrow':
+                $date = date('Y-m-d', time() + 86400);
+                $due_date = " AND due_date = '" . $date . "'";
+                break;
+
+            case 'overdue':
+                $date = date('Y-m-d');
+                $due_date = " AND due_date < '" . $date . "'";
+                break;
+        }
+    }
+
     $query_task = "SELECT t.id, name, file, DATE_FORMAT(due_date,'%d.%m.%Y') due_date, status, p.name_of_project FROM tasks t
-        JOIN projects p ON t.project_id = p.id WHERE t.user_id =" . $user['id'] . $filter;
+        JOIN projects p ON t.project_id = p.id WHERE t.user_id =" . $user['id'] . $filter . $due_date;
+        print($query_task);
+
     $result_task = mysqli_query($link, $query_task);
     if ($result_task) {
         $tasks = mysqli_fetch_all($result_task, MYSQLI_ASSOC);
