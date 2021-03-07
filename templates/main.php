@@ -20,8 +20,8 @@
     <main class="content__main">
         <h2 class="content__main-heading">Список задач</h2>
 
-        <form class="search-form" action="index.php?seach=" method="post" autocomplete="off">
-            <input class="search-form__input" type="text" name="seach" id="seach" value="<?=getPostVal('seach')?>" placeholder="Поиск по задачам">
+        <form class="search-form" action="" method="get" autocomplete="off">
+            <input class="search-form__input" type="text" name="seach" id="seach" value="<?= isset($_GET['seach']) ? $_GET['seach'] : '' ?>" placeholder="Поиск по задачам">
             <input class="search-form__submit" type="submit" name="" value="Искать">
         </form>
 

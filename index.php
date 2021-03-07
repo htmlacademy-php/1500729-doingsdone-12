@@ -23,10 +23,10 @@ if (!$link) {
 } else {
     $query_projects = "SELECT p.id, p.name_of_project, COUNT(t.id) AS count_of_tasks FROM projects p 
                            LEFT JOIN tasks t ON p.id = t.project_id WHERE p.user_id =" . $user['id'] .
-                           " GROUP BY p.name_of_project, p.id ORDER BY p.id";
+        " GROUP BY p.name_of_project, p.id ORDER BY p.id";
     $result_of_projects = mysqli_query($link, $query_projects);
     if ($result_of_projects) {
-        $categories = mysqli_fetch_all($result_of_projects, MYSQLI_ASSOC);        
+        $categories = mysqli_fetch_all($result_of_projects, MYSQLI_ASSOC);
     }
 
     $filter = '';
@@ -44,13 +44,15 @@ if (!$link) {
     }
 
     if (isset($_GET['seach'])) {
-        $search = $_POST['seach'] ?? '';
+        $search = $_GET['seach'] ?? '';
+        $search = trim($search);
         if ($search) {
-            $query_seach = "SELECT * FROM tasks  WHERE MATCH(name) AGAINST ('" . $search . "') AND user_id=" . $user['id'];
+            $query_seach = "SELECT name, file, DATE_FORMAT(due_date,'%d.%m.%Y') due_date, status FROM tasks 
+                            WHERE MATCH(name) AGAINST ('" . $search . "') AND user_id=" . $user['id'];
             $result_seach = mysqli_query($link, $query_seach);
             if ($result_seach) {
                 $tasks = mysqli_fetch_all($result_seach, MYSQLI_ASSOC);
-            } 
+            }
         }
     }
 
@@ -65,10 +67,10 @@ if (!$link) {
         if ($result_task && $result_update_status) {
             mysqli_commit($link);
             header("Location: /index.php");
-    exit();
+            exit();
         } else {
             mysqli_rollback($link);
-        }   
+        }
     }
 }
 if (isset($_GET['show_completed'])) {
@@ -81,7 +83,7 @@ $main = include_template('main.php', [
     'tasks' => $tasks,
     'type' => $type,
     'button_class' => $button_class,
-    'seach_error' => $seach_error
+    'seach_error' => $seach_error,
 ]);
 
 $layout = include_template('layout.php', [
