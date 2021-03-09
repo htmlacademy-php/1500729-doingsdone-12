@@ -1,3 +1,5 @@
+USE doingsdone;
+
 -- Добавление пользователей
 INSERT INTO users (email, name, password)
 VALUES
@@ -34,3 +36,6 @@ UPDATE tasks SET status = 1 WHERE id = 1;
 
 --обновить название задачи по её идентификатору;
 UPDATE tasks SET name = 'Повторное собеседование в IT компании' WHERE id = 1;
+
+-- добавить полнотекстовый интекс к имени задачи;
+CREATE FULLTEXT INDEX task_ft_search ON tasks(name);
