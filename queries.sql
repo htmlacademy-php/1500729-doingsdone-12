@@ -1,3 +1,5 @@
+USE doingsdone;
+
 -- Добавление пользователей
 INSERT INTO users (email, name, password)
 VALUES
@@ -32,5 +34,8 @@ SELECT * FROM tasks WHERE project_id = 1;
 -- пометить задачу как выполненную;
 UPDATE tasks SET status = 1 WHERE id = 1;
 
---обновить название задачи по её идентификатору;
+-- обновить название задачи по её идентификатору;
 UPDATE tasks SET name = 'Повторное собеседование в IT компании' WHERE id = 1;
+
+-- добавить полнотекстовый индекс к имени задачи;
+
