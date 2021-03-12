@@ -23,10 +23,10 @@ if (!$link) {
 } else {
     $query_projects = "SELECT p.id, p.name_of_project, COUNT(t.id) AS count_of_tasks FROM projects p 
                            LEFT JOIN tasks t ON p.id = t.project_id WHERE p.user_id =" . $user['id'] .
-                           " GROUP BY p.name_of_project, p.id ORDER BY p.id";
+        " GROUP BY p.name_of_project, p.id ORDER BY p.id";
     $result_of_projects = mysqli_query($link, $query_projects);
     if ($result_of_projects) {
-        $categories = mysqli_fetch_all($result_of_projects, MYSQLI_ASSOC);        
+        $categories = mysqli_fetch_all($result_of_projects, MYSQLI_ASSOC);
     }
 
     $filter = '';
@@ -36,7 +36,7 @@ if (!$link) {
         $filter = ' AND p.id = ' . $type;
     }
 
-    $query_task = "SELECT name, file, DATE_FORMAT(due_date,'%d.%m.%Y') due_date, status, p.name_of_project FROM tasks t
+    $query_task = "SELECT t.id, name, file, DATE_FORMAT(due_date,'%d.%m.%Y') due_date, status, p.name_of_project FROM tasks t
         JOIN projects p ON t.project_id = p.id WHERE t.user_id =" . $user['id'] . $filter;
     $result_task = mysqli_query($link, $query_task);
     if ($result_task) {
@@ -44,15 +44,36 @@ if (!$link) {
     }
 
     if (isset($_GET['seach'])) {
-        $search = $_POST['seach'] ?? '';
+        $search = filter_input(INPUT_GET, 'seach', FILTER_SANITIZE_SPECIAL_CHARS);
         if ($search) {
-            $query_seach = "SELECT * FROM tasks  WHERE MATCH(name) AGAINST ('" . $search . "') AND user_id=" . $user['id'];
+            $query_seach = "SELECT name, file, DATE_FORMAT(due_date,'%d.%m.%Y') due_date, status FROM tasks 
+                            WHERE MATCH(name) AGAINST ('" . $search . "' IN BOOLEAN MODE) AND user_id=" . $user['id'];
             $result_seach = mysqli_query($link, $query_seach);
             if ($result_seach) {
                 $tasks = mysqli_fetch_all($result_seach, MYSQLI_ASSOC);
-            } 
+            }
         }
     }
+
+    if (isset($_GET['task_id']) && isset($_GET['check'])) {
+        mysqli_begin_transaction($link);
+
+        $query_task = "SELECT * FROM tasks WHERE id = " . $_GET['task_id'];
+        $result_task = mysqli_query($link, $query_task);
+        $query_update_status = "UPDATE tasks SET status = abs(status-1) WHERE id = " . $_GET['task_id'];
+        $result_update_status = mysqli_query($link, $query_update_status);
+
+        if ($result_task && $result_update_status) {
+            mysqli_commit($link);
+            header("Location: /index.php");
+            exit();
+        } else {
+            mysqli_rollback($link);
+        }
+    }
+}
+if (isset($_GET['show_completed'])) {
+    $show_complete_tasks = $_GET['show_completed'];
 }
 
 $main = include_template('main.php', [
@@ -61,7 +82,7 @@ $main = include_template('main.php', [
     'tasks' => $tasks,
     'type' => $type,
     'button_class' => $button_class,
-    'seach_error' => $seach_error
+    'seach_error' => $seach_error,
 ]);
 
 $layout = include_template('layout.php', [

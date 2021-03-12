@@ -12,13 +12,13 @@ if (!$link) {
     $error = mysqli_connect_error($link);
     print($error);
 } else {
-       $query_projects = "SELECT p.id, p.name_of_project, COUNT(t.id) AS count_of_tasks FROM projects p 
+    $query_projects = "SELECT p.id, p.name_of_project, COUNT(t.id) AS count_of_tasks FROM projects p 
                           LEFT JOIN tasks t ON p.id = t.project_id WHERE p.user_id =" . $_SESSION['user']['id'] . "
                           GROUP BY p.name_of_project, p.id ORDER BY p.id";
-       $result_of_projects = mysqli_query ($link, $query_projects);
-       if ($result_of_projects) {
-           $categories = mysqli_fetch_all ($result_of_projects, MYSQLI_ASSOC);
-       }
+    $result_of_projects = mysqli_query($link, $query_projects);
+    if ($result_of_projects) {
+        $categories = mysqli_fetch_all($result_of_projects, MYSQLI_ASSOC);
+    }
 }
 
 $errors = "";
@@ -26,8 +26,14 @@ $errors = "";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($_POST['project_name'])) {
         $errors = "Не заполнено поле";
-        print($errors);
-    } 
+    } else {
+        foreach ($categories as $category) {
+            if($_POST['project_name'] == $category['name_of_project']) {
+                $errors = "Проект с таким названием уже существует";
+                break;
+            }
+        }
+    }
 
     if (empty($errors)) {
         $sql = "INSERT INTO projects (name_of_project, user_id) VALUES (?, ?)";

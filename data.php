@@ -1,6 +1,5 @@
 <?php
-
-$show_complete_tasks = rand(0, 1);
+$show_complete_tasks = 0;
 
 $title = 'Дела в порядке';
 $button_class = "main-navigation__list-item--active";
