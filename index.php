@@ -32,6 +32,7 @@ if (!$link) {
     $filter = '';
     $type = '';
     $due_date = '';
+    $seach_query = '';
     if (isset($_GET['project_id'])) {
         $type = $_GET['project_id'];
         $filter = ' AND p.id = ' . $type;
@@ -57,24 +58,19 @@ if (!$link) {
         }
     }
 
+    if (isset($_GET['seach'])) {
+        $search = filter_input(INPUT_GET, 'seach', FILTER_SANITIZE_SPECIAL_CHARS);
+        if ($search) {
+             $seach_query = " AND MATCH(name) AGAINST ('" . $search . "' IN BOOLEAN MODE)";
+        }
+    }
+
     $query_task = "SELECT t.id, name, file, DATE_FORMAT(due_date,'%d.%m.%Y') due_date, status, p.name_of_project FROM tasks t
-        JOIN projects p ON t.project_id = p.id WHERE t.user_id =" . $user['id'] . $filter . $due_date;
+        JOIN projects p ON t.project_id = p.id WHERE t.user_id =" . $user['id'] . $filter . $due_date . $seach_query;
 
     $result_task = mysqli_query($link, $query_task);
     if ($result_task) {
         $tasks = mysqli_fetch_all($result_task, MYSQLI_ASSOC);
-    }
-
-    if (isset($_GET['seach'])) {
-        $search = filter_input(INPUT_GET, 'seach', FILTER_SANITIZE_SPECIAL_CHARS);
-        if ($search) {
-            $query_seach = "SELECT name, file, DATE_FORMAT(due_date,'%d.%m.%Y') due_date, status FROM tasks 
-                            WHERE MATCH(name) AGAINST ('" . $search . "' IN BOOLEAN MODE) AND user_id=" . $user['id'];
-            $result_seach = mysqli_query($link, $query_seach);
-            if ($result_seach) {
-                $tasks = mysqli_fetch_all($result_seach, MYSQLI_ASSOC);
-            }
-        }
     }
 
     if (isset($_GET['task_id']) && isset($_GET['check'])) {
