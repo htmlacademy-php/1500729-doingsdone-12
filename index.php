@@ -66,11 +66,10 @@ if (!$link) {
     }
 
     if (isset($_GET['seach'])) {
-        $search = $_GET['seach'] ?? '';
-        $search = trim($search);
+        $search = filter_input(INPUT_GET, 'seach', FILTER_SANITIZE_SPECIAL_CHARS);
         if ($search) {
             $query_seach = "SELECT name, file, DATE_FORMAT(due_date,'%d.%m.%Y') due_date, status FROM tasks 
-                            WHERE MATCH(name) AGAINST ('" . $search . "') AND user_id=" . $user['id'];
+                            WHERE MATCH(name) AGAINST ('" . $search . "' IN BOOLEAN MODE) AND user_id=" . $user['id'];
             $result_seach = mysqli_query($link, $query_seach);
             if ($result_seach) {
                 $tasks = mysqli_fetch_all($result_seach, MYSQLI_ASSOC);

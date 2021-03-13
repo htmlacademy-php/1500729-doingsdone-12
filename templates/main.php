@@ -21,7 +21,7 @@
         <h2 class="content__main-heading">Список задач</h2>
 
         <form class="search-form" action="" method="get" autocomplete="off">
-            <input class="search-form__input" type="text" name="seach" id="seach" value="<?= isset($_GET['seach']) ? $_GET['seach'] : '' ?>" placeholder="Поиск по задачам">
+            <input class="search-form__input" type="text" name="seach" id="seach" value="<?= isset($_GET['seach']) ? trim($_GET['seach']) : '' ?>" placeholder="Поиск по задачам">
             <input class="search-form__submit" type="submit" name="" value="Искать">
         </form>
 
@@ -55,7 +55,7 @@
                                             echo(due_control($task['due_date'], $task['status'])); ?>">
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
-                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" name="checkbox" value="<?= $task['id']?>"
+                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" name="checkbox" value="<?= $task['id'] ?>"
                         >
                         <span class="checkbox__text"><?= strip_tags($task['name']); ?></span>
                     </label>
