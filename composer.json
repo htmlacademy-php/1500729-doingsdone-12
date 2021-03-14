@@ -1,0 +1,15 @@
+{
+    "name": "anony/doingsdone",
+    "description": "learn project",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aleksey Onipko",
+            "email": "anonymous.aleksey@gmail.com"
+        }
+    ],
+    "require": {
+        "swiftmailer/swiftmailer": "^6.2"
+    }
+}

@@ -3,6 +3,11 @@ require_once('data.php');
 require_once('connect.php');
 require_once('functions.php');
 
+if (isset($_SESSION['user'])) {
+    header("Location: /index.php");
+    exit();
+}
+
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
