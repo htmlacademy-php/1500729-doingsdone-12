@@ -33,8 +33,9 @@ if ($query) {
                 $user_name = $task['name'];
                 $contents[] = ['task' => $task['task'], 'due_date' => $task['due_date']];
             }
+
             $message_body = include_template('notify.php', ['user_name' => $user_name, 'contents' => $contents, 'email' => $task['email']]);
-            print($message_body);
+
             $message = new Swift_Message($transport);
             $message->setTo($task['email']);
             $message->setBody($message_body, 'text/html');

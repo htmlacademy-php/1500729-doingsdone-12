@@ -12,13 +12,9 @@ if (!$link) {
     $error = mysqli_connect_error($link);
     print($error);
 } else {
-    $query_projects = "SELECT p.id, p.name_of_project, COUNT(t.id) AS count_of_tasks FROM projects p 
-                       LEFT JOIN tasks t ON p.id = t.project_id  AND t.status = 0 WHERE p.user_id = " . $_SESSION['user']['id'] .
-                       " GROUP BY p.name_of_project, p.id ORDER BY p.id";
-    $result_of_projects = mysqli_query($link, $query_projects);
-    if ($result_of_projects) {
-        $categories = mysqli_fetch_all($result_of_projects, MYSQLI_ASSOC);
-    }
+    
+    $categories = get_categories($_SESSION['user']['id'], $link);
+
 }
 
 $file_url = NULL;
