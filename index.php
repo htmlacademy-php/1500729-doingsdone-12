@@ -16,7 +16,7 @@ if (!isset($_SESSION['user'])) {
 $user = $_SESSION['user'];
 $categories = [];
 $tasks = [];
-//*здесь сразу собираю и проекты и количество задач в проектах
+
 if (!$link) {
     $error = mysqli_connect_error($link);
     print($error);
