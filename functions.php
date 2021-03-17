@@ -88,7 +88,12 @@ function is_date_valid(string $date): bool
     return $dateTimeObj !== false && array_sum(date_get_last_errors()) === 0;
 }
 
-
+/**
+ * Возвращает отправленное значение из поля методом POST
+ * @param string $name имя поля
+ * 
+ * @return string Возвращает отправленное значение
+ */
 function getPostVal($name)
 {
     return $_POST[$name] ?? "";
@@ -110,6 +115,8 @@ function get_categories($user_id, $link)
 
     if ($result_of_projects) {
         $categories = mysqli_fetch_all($result_of_projects, MYSQLI_ASSOC);
+    } else {
+        $categories = '';
     }
 
     return $categories;
