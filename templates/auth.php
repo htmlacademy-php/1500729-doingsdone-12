@@ -13,7 +13,7 @@
           <div class="form__row">
             <label class="form__label" for="email">E-mail <sup>*</sup></label>
 
-            <input class="form__input <?= isset($errors['email']) ? $error_class : '' ?>" type="text" name="email" id="email" value="<?=  isset($errors) ? getPostVal('email') : '' ?>" placeholder="Введите e-mail">
+            <input class="form__input <?= isset($errors['email']) ? $error_class : '' ?>" type="text" name="email" id="email" value="<?=  isset($errors) ? strip_tags(getPostVal('email')) : '' ?>" placeholder="Введите e-mail">
 
             <?php if (isset($errors['email'])): ?>
               <p class="form__message"><?= $errors['email'];?></p>

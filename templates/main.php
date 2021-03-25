@@ -9,8 +9,8 @@
                         <a class="main-navigation__list-item-link" href='?project_id=<?=$category['id']?>'><?= strip_tags($category['name_of_project']) ?></a>
                         <span class="main-navigation__list-item-count"><?= $category['count_of_tasks'] ?></span>
                     </li>
-                </ul> 
-            <?php endforeach; ?>  
+                </ul>
+            <?php endforeach; ?>
             </nav>
 
         <a class="button button--transparent button--plus content__side-button"
@@ -28,9 +28,9 @@
         <div class="tasks-controls">
             <nav class="tasks-switch">
                 <a href="/" class="tasks-switch__item <?= !isset($_GET['date']) ? 'tasks-switch__item--active' : '' ?>">Все задачи</a>
-                <a href="/?date=today" class="tasks-switch__item <?= isset($_GET['date']) && $_GET['date'] == 'today' ? 'tasks-switch__item--active' : '' ?>">Повестка дня</a>
-                <a href="/?date=tomorrow" class="tasks-switch__item <?= isset($_GET['date']) && $_GET['date'] == 'tomorrow' ? 'tasks-switch__item--active' : '' ?>">Завтра</a>
-                <a href="/?date=overdue" class="tasks-switch__item <?= isset($_GET['date']) && $_GET['date'] == 'overdue' ? 'tasks-switch__item--active' : '' ?>">Просроченные</a>
+                <a href="?date=today" class="tasks-switch__item <?= isset($_GET['date']) && $_GET['date'] == 'today' ? 'tasks-switch__item--active' : '' ?>">Повестка дня</a>
+                <a href="?date=tomorrow" class="tasks-switch__item <?= isset($_GET['date']) && $_GET['date'] == 'tomorrow' ? 'tasks-switch__item--active' : '' ?>">Завтра</a>
+                <a href="?date=overdue" class="tasks-switch__item <?= isset($_GET['date']) && $_GET['date'] == 'overdue' ? 'tasks-switch__item--active' : '' ?>">Просроченные</a>
             </nav>
 
             <label class="checkbox">
@@ -39,7 +39,7 @@
                 <span class="checkbox__text">Показывать выполненные</span>
             </label>
         </div>
-        
+
         <?php if (isset($_GET['seach']) && empty($tasks)): ?>
         <p><?= $seach_error ?> </p>
         <?php else: ?>
@@ -50,7 +50,7 @@
                  continue;
             }
         ?>
-        
+
             <tr class="tasks__item task <?= $task['status'] ? 'task--completed' : '';
                                             echo(due_control($task['due_date'], $task['status'])); ?>">
                 <td class="task__select">
@@ -74,4 +74,3 @@
         <?php endif; ?>
     </main>
 </div>
-        

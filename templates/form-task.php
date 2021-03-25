@@ -6,11 +6,11 @@
             <?php foreach ($categories as $category): ?>
                 <ul class="main-navigation__list">
                     <li class="main-navigation__list-item <?= ($type === $category['id']) ? $button_class : '' ?>">
-                        <a class="main-navigation__list-item-link" href='?project_id=<?=$category['id']?>'><?= strip_tags($category['name_of_project']) ?></a>
+                        <a class="main-navigation__list-item-link" href='/?project_id=<?=$category['id']?>'><?= strip_tags($category['name_of_project']) ?></a>
                         <span class="main-navigation__list-item-count"><?= $category['count_of_tasks'] ?></span>
                     </li>
-                </ul> 
-            <?php endforeach; ?>  
+                </ul>
+            <?php endforeach; ?>
             </nav>
 
         <a class="button button--transparent button--plus content__side-button"
@@ -27,8 +27,8 @@
             <?php endif; ?>
             <label class="form__label" for="name">Название <sup>*</sup></label>
 
-            <input class="form__input <?=  isset($error['name']) ? $error_class : '' ?> " type="text" name="name" id="name" value="<?=  $error ? getPostVal('name') : '' ?>" placeholder="Введите название">
-     
+            <input class="form__input <?=  isset($error['name']) ? $error_class : '' ?> " type="text" name="name" id="name" value="<?=  $error ? strip_tags(getPostVal('name')) : '' ?>" placeholder="Введите название">
+
           </div>
 
           <div class="form__row">
@@ -36,10 +36,10 @@
             <p class="form__message"><?= $error['project']; ?> </p>
             <?php endif; ?>
             <label class="form__label" for="project">Проект <sup>*</sup></label>
-            
+
             <select class="form__input form__input--select <?=  isset($error['project']) ? $error_class : '' ?>" name="project" id="project">
             <?php foreach ($categories as $category): ?>
-              <option value="<?= $category['id'] ?>"><?= $category['name_of_project']; ?></option>
+              <option value="<?= $category['id'] ?>"><?= strip_tags($category['name_of_project']); ?></option>
               <?php endforeach; ?>
             </select>
           </div>
@@ -50,15 +50,15 @@
             <?php endif; ?>
             <label class="form__label" for="date">Дата выполнения</label>
 
-            <input class="form__input form__input--date <?=  isset($error['date']) ? $error_class : '' ?>" type="text" name="date" id="date" value="<?=  $error ? getPostVal('date') : '' ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
-            
+            <input class="form__input form__input--date <?=  isset($error['date']) ? $error_class : '' ?>" type="text" name="date" id="date" value="<?=  $error ? strip_tags(getPostVal('date')) : '' ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
+
           </div>
 
           <div class="form__row">
             <label class="form__label" for="file">Файл</label>
 
             <div class="form__input-file">
-              <input class="visually-hidden" type="file" name="file" id="file" value="<?= $_FILE['name'] ?>">
+              <input class="visually-hidden" type="file" name="file" id="file" value="<?= strip_tags($_FILE['name']) ?>">
 
               <label class="button button--transparent" for="file">
                 <span>Выберите файл</span>

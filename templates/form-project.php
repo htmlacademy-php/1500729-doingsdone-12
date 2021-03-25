@@ -6,11 +6,11 @@
             <?php foreach ($categories as $category): ?>
                 <ul class="main-navigation__list">
                     <li class="main-navigation__list-item <?= ($type === $category['id']) ? $button_class : '' ?>">
-                        <a class="main-navigation__list-item-link" href='?project_id=<?=$category['id']?>'><?= strip_tags($category['name_of_project']) ?></a>
+                        <a class="main-navigation__list-item-link" href='/?project_id=<?=$category['id']?>'><?= strip_tags($category['name_of_project']) ?></a>
                         <span class="main-navigation__list-item-count"><?= $category['count_of_tasks'] ?></span>
                     </li>
-                </ul> 
-            <?php endforeach; ?>  
+                </ul>
+            <?php endforeach; ?>
             </nav>
 
         <a class="button button--transparent button--plus content__side-button" href="form-project.html">Добавить проект</a>
@@ -23,7 +23,7 @@
           <div class="form__row">
             <label class="form__label" for="project_name">Название <sup>*</sup></label>
 
-            <input class="form__input <?= $errors ? $error_class : '' ?>" type="text" name="project_name" id="project_name" value="<?=  $errors ? getPostVal('project_name') : '' ?>" placeholder="Введите название проекта">
+            <input class="form__input <?= $errors ? $error_class : '' ?>" type="text" name="project_name" id="project_name" value="<?=  $errors ? strip_tags(getPostVal('project_name')) : '' ?>" placeholder="Введите название проекта">
             <?php if ($errors) : ?>
               <p class="form__message"><?= $errors;?></p>
               <?php endif; ?>

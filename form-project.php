@@ -1,7 +1,7 @@
 <?php
 require_once('data.php');
 require_once('connect.php');
-require_once('functions.php');
+require_once('helpers.php');
 
 if (!isset($_SESSION['user'])) {
     header("Location: /index.php");
@@ -12,7 +12,7 @@ if (!$link) {
     $error = mysqli_connect_error($link);
     print($error);
 } else {
-    
+
     $categories = get_categories($_SESSION['user']['id'], $link);
 
 }
