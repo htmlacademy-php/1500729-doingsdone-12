@@ -1,4 +1,8 @@
 <?php
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 require_once('data.php');
 require_once('connect.php');
 require_once('helpers.php');
@@ -31,6 +35,8 @@ if (!$link) {
     if (isset($_GET['project_id'])) {
         $type = $_GET['project_id'];
         $filter = ' AND p.id = ' . $type;
+        $http_query = ['project_id' => $type];
+        $_SESSION['user']['project'] = http_build_query($http_query);
     }
 
     if (isset($_GET['date'])) {
@@ -86,7 +92,12 @@ if (!$link) {
     }
 }
 if (isset($_GET['show_completed'])) {
-    $show_complete_tasks = $_GET['show_completed'];
+    $_SESSION['user']['show_completed'] = $_GET['show_completed'];
+}
+$show_complete_tasks = $_SESSION['user']['show_completed'];
+
+if (empty($_GET['project_id'])) {
+    unset($_SESSION['user']['project']);
 }
 
 $main = include_template('main.php', [
@@ -104,7 +115,7 @@ $layout = include_template('layout.php', [
     'user' => $user
 ]);
 
-if (empty($tasks) && !empty($type)) {
+if (empty($tasks) && !empty($type) && !isset($_GET['date'])) {
     http_response_code(404);
 } else {
     print($layout);

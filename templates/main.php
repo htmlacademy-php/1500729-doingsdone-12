@@ -28,9 +28,9 @@
         <div class="tasks-controls">
             <nav class="tasks-switch">
                 <a href="/" class="tasks-switch__item <?= !isset($_GET['date']) ? 'tasks-switch__item--active' : '' ?>">Все задачи</a>
-                <a href="?date=today" class="tasks-switch__item <?= isset($_GET['date']) && $_GET['date'] == 'today' ? 'tasks-switch__item--active' : '' ?>">Повестка дня</a>
-                <a href="?date=tomorrow" class="tasks-switch__item <?= isset($_GET['date']) && $_GET['date'] == 'tomorrow' ? 'tasks-switch__item--active' : '' ?>">Завтра</a>
-                <a href="?date=overdue" class="tasks-switch__item <?= isset($_GET['date']) && $_GET['date'] == 'overdue' ? 'tasks-switch__item--active' : '' ?>">Просроченные</a>
+                <a href="?date=today<?= isset($_SESSION['user']['project']) ? '&' . $_SESSION['user']['project'] : '' ?>" class="tasks-switch__item <?= isset($_GET['date']) && $_GET['date'] == 'today' ? 'tasks-switch__item--active' : '' ?>">Повестка дня</a>
+                <a href="?date=tomorrow<?= isset($_SESSION['user']['project']) ? '&' . $_SESSION['user']['project'] : '' ?>" class="tasks-switch__item <?= isset($_GET['date']) && $_GET['date'] == 'tomorrow' ? 'tasks-switch__item--active' : '' ?>">Завтра</a>
+                <a href="?date=overdue<?= isset($_SESSION['user']['project']) ? '&' . $_SESSION['user']['project'] : '' ?>" class="tasks-switch__item <?= isset($_GET['date']) && $_GET['date'] == 'overdue' ? 'tasks-switch__item--active' : '' ?>">Просроченные</a>
             </nav>
 
             <label class="checkbox">
