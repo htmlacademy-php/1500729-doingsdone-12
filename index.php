@@ -94,7 +94,10 @@ if (!$link) {
 if (isset($_GET['show_completed'])) {
     $_SESSION['user']['show_completed'] = $_GET['show_completed'];
 }
-$show_complete_tasks = $_SESSION['user']['show_completed'];
+if (isset($_SESSION['user']['show_completed'])){
+    $show_complete_tasks = $_SESSION['user']['show_completed'];
+}
+
 
 if (empty($_GET['project_id'])) {
     unset($_SESSION['user']['project']);
