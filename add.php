@@ -1,7 +1,7 @@
 <?php
 require_once('data.php');
 require_once('connect.php');
-require_once('functions.php');
+require_once('helpers.php');
 
 if (!isset($_SESSION['user'])) {
     header("Location: /index.php");
@@ -12,7 +12,7 @@ if (!$link) {
     $error = mysqli_connect_error($link);
     print($error);
 } else {
-    
+
     $categories = get_categories($_SESSION['user']['id'], $link);
 
 }
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (empty($error)) {
-        $add_task = "INSERT INTO tasks (NAME, project_id, due_date, FILE, user_id) 
+        $add_task = "INSERT INTO tasks (NAME, project_id, due_date, FILE, user_id)
                      VALUES (?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare($link, $add_task);
         mysqli_stmt_bind_param($stmt, 'sissi', $_POST['name'], $_POST['project'], $due_date, $file_url, $_SESSION['user']['id']);

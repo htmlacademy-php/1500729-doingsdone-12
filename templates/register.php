@@ -12,7 +12,7 @@
             <div class="form__row">
               <label class="form__label" for="email">E-mail <sup>*</sup></label>
 
-              <input class="form__input <?= isset($errors['email']) ? $error_class : '' ?>" type="text" name="email" id="email" value="<?=  isset($errors) ? getPostVal('email') : '' ?>" placeholder="Введите e-mail">
+              <input class="form__input <?= isset($errors['email']) ? $error_class : '' ?>" type="text" name="email" id="email" value="<?=  isset($errors) ? strip_tags(getPostVal('email')) : '' ?>" placeholder="Введите e-mail">
               <?php if (isset($errors['email'])): ?>
               <p class="form__message"><?= $errors['email'];?></p>
               <?php endif; ?>
@@ -30,7 +30,7 @@
             <div class="form__row">
               <label class="form__label" for="name">Имя <sup>*</sup></label>
 
-              <input class="form__input <?= isset($errors['name']) ? $error_class : '' ?>" type="text" name="name" id="name" value="<?=  $errors ? getPostVal('name') : '' ?>" placeholder="Введите имя">
+              <input class="form__input <?= isset($errors['name']) ? $error_class : '' ?>" type="text" name="name" id="name" value="<?=  $errors ? strip_tags(getPostVal('name')) : '' ?>" placeholder="Введите имя">
               <?php if (isset($errors['name'])): ?>
               <p class="form__message"><?= $errors['name'];?></p>
               <?php endif; ?>

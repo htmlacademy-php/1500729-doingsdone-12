@@ -1,7 +1,7 @@
 <?php
 require_once('data.php');
 require_once('connect.php');
-require_once('functions.php');
+require_once('helpers.php');
 
 if (isset($_SESSION['user'])) {
     header("Location: /index.php");
@@ -38,8 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     } else {
         $errors['email'] = 'Такой пользователь не найден';
-    } 
-    }  
+    }
+    }
     if (isset($_SESSION['user'])) {
         header("Location: /index.php");
         exit();

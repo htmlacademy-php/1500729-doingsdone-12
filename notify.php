@@ -1,13 +1,13 @@
 <?php
 require_once('connect.php');
-require_once('functions.php');
+require_once('helpers.php');
 require_once('vendor/autoload.php');
 
 $transport = new Swift_SmtpTransport('phpdemo.ru', 25);
 $transport->setUsername('keks@phpdemo.ru');
 $transport->setPassword('htmlacademy');
 
-$sql = "SELECT t.name AS task, DATE_FORMAT(due_date,'%d.%m.%Y') AS due_date, u.email, u.name, u.id FROM tasks t LEFT JOIN users u ON  t.user_id = u.id 
+$sql = "SELECT t.name AS task, DATE_FORMAT(due_date,'%d.%m.%Y') AS due_date, u.email, u.name, u.id FROM tasks t LEFT JOIN users u ON  t.user_id = u.id
         WHERE due_date = CURDATE() AND status = 0";
 
 $query = mysqli_query($link, $sql);
