@@ -33,7 +33,7 @@ if (!$link) {
     $due_date = '';
     $seach_query = '';
     if (isset($_GET['project_id'])) {
-        $type = $_GET['project_id'];
+        $type = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_SPECIAL_CHARS);
         $filter = ' AND p.id = ' . $type;
         $http_query = ['project_id' => $type];
         $_SESSION['user']['project'] = http_build_query($http_query);
